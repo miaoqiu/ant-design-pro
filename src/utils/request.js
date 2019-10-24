@@ -92,13 +92,17 @@ export default function request(url, option) {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers,
+        access_token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
+
       };
       newOptions.body = JSON.stringify(newOptions.body);
     } else {
       // newOptions.body is FormData
+
       newOptions.headers = {
         Accept: 'application/json',
         ...newOptions.headers,
+        access_token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
       };
     }
   }

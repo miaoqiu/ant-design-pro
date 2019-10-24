@@ -1,6 +1,8 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
+
+
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
@@ -103,12 +105,12 @@ export async function updateFakeList(params) {
   });
 }
 
-export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
-    body: params,
-  });
-}
+// export async function fakeAccountLogin(params) {
+//   return request('/api/login/account', {
+//     method: 'POST',
+//     body: params,
+//   });
+// }
 
 export async function fakeRegister(params) {
   return request('/api/register', {
@@ -124,3 +126,72 @@ export async function queryNotices(params = {}) {
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
+
+
+/** 登录
+ * @param params
+ * @returns {Promise<void>}
+ */
+export async function loginAction(params) {
+  return request('/api/login/', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+
+
+/** 获取Templates
+ * @param params
+ * @returns {Promise<void>}
+ */
+export async function GetTempListApi(params) {
+  return request('/api/filter-templates/', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+
+/** 获取SearchList
+ * @param params
+ * @returns {Promise<void>}
+ */
+export async function GetSearchListApi(params) {
+  return request('/api/je-conditions/uac/', {
+    method: 'POST',
+    body: params,
+  });
+ }
+
+
+
+
+
+/** 获取查询页面基本信息
+ * @param params
+ * @returns {Promise<void>}
+ */
+export async function getBaseDataApi(params) {
+  return request('/api/je-conditions/get-required-field/', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+
+/**
+ * @param params UnexpectedAccountCombination UnexpectedAccount 点运行后显示table
+ * @returns {Promise<void>}
+ */
+export async function resultDataListApi(params) {
+  return request('/api/je-conditions/uact/', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+
+
+
+

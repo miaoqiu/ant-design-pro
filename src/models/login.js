@@ -1,9 +1,10 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
+import { getFakeCaptcha, loginAction } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import { message } from 'antd';
 
 export default {
   namespace: 'login',
@@ -14,13 +15,21 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      });
+      const response = yield call(loginAction, payload);
       // Login successfully
-      if (response.status === 'ok') {
+      if (String(response.code) === String('00000')) {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: {
+            status: true,
+            currentAuthority: 'admin',
+          },
+        });
+        localStorage.setItem('user_id', response.data.user_id);
+        localStorage.setItem('token', response.data.token);
+        // localStorage.setItem('training_point_info_id', response.data.training_point_info_id? response.data.training_point_info_id: '');
+
+        // localStorage.setItem('p2p_platform_id', response.data.p2p_platform_id);
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -38,11 +47,13 @@ export default {
           }
         }
         yield put(routerRedux.replace(redirect || '/'));
+      } else {
+        message.error(response.errmsg);
       }
     },
 
     *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
+      // yield call(getFakeCaptcha, payload);
     },
 
     *logout(_, { put }) {

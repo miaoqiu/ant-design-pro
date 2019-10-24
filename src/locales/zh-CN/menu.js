@@ -33,8 +33,11 @@ export default {
   'menu.exception.not-find': '404',
   'menu.exception.server-error': '500',
   'menu.exception.trigger': '触发错误',
-  'menu.account': '个人页',
-  'menu.account.center': '个人中心',
+  'menu.account': 'Filter',
+  'menu.account.center': 'Filter',
+
+  'menu.filter': 'FilterS',
+  'menu.filter.filter': 'FilterS',
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',

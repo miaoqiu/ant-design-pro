@@ -170,7 +170,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
   min-height: 60px;
   border-top: 1px red solid;
@@ -182,11 +181,14 @@
 
 .midRight{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
   min-height: 650px;
+  border-right: 1px red solid;
+  border-bottom: 1px red solid;
+  border-left: 1px red solid;
 }
 
 
@@ -216,6 +218,7 @@
   align-items: flex-start;
   width: 100%;
   height: 30px;
+  background-color: blue;
 }
 
 .headerTitle{
@@ -223,10 +226,7 @@
   flex-direction: row;
   align-items: center;
   align-self: flex-start;
-  margin-left: 10px;
-  color: red;
-  font-weight: 900;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
@@ -254,7 +254,7 @@
       border-left: none;
       border-right: none;
 
-     }
+    }
   }
 }
 
@@ -356,3 +356,268 @@
   margin-bottom: 2px;
 
 }
+
+
+.leftView {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 50%;
+  min-height: 650px;
+  margin-top: 2px;
+  border-right:1px #dfdfdf solid; ;
+}
+
+
+.rightView {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 50%;
+  min-height: 650px;
+  margin-top: 2px;
+ }
+
+.testV{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+  border-bottom: 1px #dfdfdf solid;
+}
+
+
+
+.leftDes{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+
+.testVR{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  border-bottom: 1px #dfdfdf solid;
+}
+
+.leftR{
+ margin-left: 60px;
+}
+
+.testVRNB{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
+
+
+.testInput{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 50px;
+  width: 100%;
+
+}
+
+
+.testInputS{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.testVRB{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;
+
+}
+
+
+.leftRB{
+  margin-left: 90px;
+}
+
+
+
+.topView{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.leftTitle{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+}
+
+.rightTopAllView{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.rightTopView{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+
+}
+
+
+.rightBottomView{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+
+.topInput{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+
+.selectBtn{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px #dfdfdf solid;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+
+.topInputR{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+
+.leftAccountTitle{
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  font-weight: 600;
+
+}
+
+
+
+.demoinfinitecontainer {
+  //border: 1px solid blue;
+  //border-radius: 4px;
+  overflow: auto;
+  padding: 20px 24px;
+  height: 580px;
+}
+.demoloadingcontainer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+.demoloadmorelist {
+  height: 480px;
+  margin-bottom: 20px;
+}
+//
+//[class*='ant-list-item'] {
+//   min-height: 200px !important;
+//  background-color: red !important;
+//}
+
+
+.listItem{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.listItemCheck{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.listItemCode{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+.showSearchList{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: 500px;
+}
+
+.leftSearchList{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-height: 500px;
+  width: 50%;
+  overflow: scroll;
+  margin-right: 5px;
+
+
+
+
+}
+
+
+.rightSearchList{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-height: 500px;
+  width: 50%;
+  overflow: scroll;
+  margin-left: 5px;
+
+
+}
+
+
+
