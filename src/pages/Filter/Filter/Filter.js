@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Button,Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input, List, Select, Radio , Checkbox, message,Alert} from 'antd';
+import { Button,Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input, List, Select, Radio , Checkbox, message,Alert, Table,Pagination} from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Filter.less';
 // import logo from '../../../assets/Filter/headerIcon.png';
@@ -50,7 +50,12 @@ class Filter extends PureComponent {
     company_code: '',
     key_amount: '',
     debt_or_credit: '',
-    inclusion: ''
+    inclusion: '',
+    journals:[],
+    isShowResult: false,
+    tempData:[],
+    pageN: 10,
+    tempA:[]
   };
 
   componentDidMount() {
@@ -377,6 +382,12 @@ class Filter extends PureComponent {
     });
   }
 
+  // 返回查询结果页面
+  returnClick() {
+    this.setState({
+      isShowResult: false
+    })
+  }
 
   runClick(){
     let tempDataArr = [];
@@ -417,17 +428,109 @@ class Filter extends PureComponent {
       callback: (response) => {
         console.error('得到的参数++++++++');
         console.error(response)
+
+        console.error(response.data.data.journals)
+        this.setState({
+          journals: response.data.data.journals,
+          isShowResult: true,
+          tempData: response.data.data.journals.slice(0, this.state.pageN)
+        },()=>{
+          console.error('得到的数组+++++++++++');
+          console.error(this.state.tempData)
+
+
+        })
       }
     });
+  }
 
+
+  columns = [
+    {
+      title: 'account_desp',
+      dataIndex: 'account_desp',
+      width:80,
+      render: (text, record) => (
+        <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+          {text}
+        </div>
+      ),
+
+    },
+    {
+      title: 'account_number',
+      dataIndex: 'account_number',
+      width:100
+    },
+    {
+      title: 'common_credit',
+      dataIndex: 'common_credit',
+      width:100
+    },
+    {
+      title: 'common_currency',
+      dataIndex: 'common_currency',
+      width:100
+    },
+    {
+      title: 'common_debit',
+      dataIndex: 'common_debit',
+      width:100
+    },
+    {
+      title: 'local_credit',
+      dataIndex: 'local_credit',
+      width:100
+    },
+    {
+      title: 'local_currency',
+      dataIndex: 'local_currency',
+      width:100
+    },
+    {
+      title: 'local_debit',
+      dataIndex: 'local_debit',
+      width:100
+    },
+  ];
+
+
+
+  onShowSizeChange(current, pageSize) {
+    console.log(current, pageSize);
+
+    // this.setState({
+    //   tempData: arr1.slice(20,10)
+    // })
+    var books = this.state.journals;
+
+
+    
+    this.setState({
+      tempData: books.slice(Number(current-1)*10,Number(current-1)*10 +10)
+  },()=>{
+
+      console.error(this.state.tempData);
+      console.error('得到的数据++++++')
+    })
+
+
+  //   this.setState(preState => ({
+  //     journals: preState.journals.slice(Number(current)*10,10),
+  // }),()=>{
+  //     console.error(this.state.journals);
+  //     console.error('得到的数据++++++')
+  //     // this.setState({
+  //     //   tempData: this.state.tempA
+  //     // })
+  //
+  //   });
 
 
 
 
 
   }
-
-
 
   render() {
     const self = this;
@@ -457,30 +560,32 @@ class Filter extends PureComponent {
                   Test variable
                 </div>
 
-                <div onClick={this.runClick.bind(this)} className={styles.leftDes} style={{ color: 'red' }}>
-                  <Button type="primary" size={'small'}>run</Button>
+                <div  className={styles.leftDes} style={{ color: 'red' }}>
+                  {!(this.state.isShowResult)&& <Button onClick={this.runClick.bind(this)} type="primary" size={'small'}>run</Button>}
+                  {this.state.isShowResult&& <Button onClick={this.returnClick.bind(this)} type="primary" size={'small'}>return</Button>}
+
                 </div>
 
               </div>
 
 
               <div className={styles.testVR}>
-                <Radio.Group onChange={this.onChange} value={this.state.RadioValue}>
-                  <span>
+                <Radio.Group onChange={this.onChange} value={this.state.inclusion}>
+                  {/*<span>*/}
                     <Radio value={'inclusive'}>Inclusive</Radio>
-                  </span>
-                  <span className={styles.leftR}>
+                  {/*</span>*/}
+                  {/*<span className={styles.leftR}>*/}
                     <Radio value={'exclusive'}>Exclusive</Radio>
-                  </span>
+                  {/*</span>*/}
                 </Radio.Group>
 
               </div>
 
 
               <div className={styles.testVRNB}>
-                <Radio.Group onChange={this.onChangeK} value={this.state.RadioValueK}>
-                  <Radio value={'debit'}>Key account debit</Radio>
-                  <Radio value={'credit'}>Key account credit</Radio>
+                <Radio.Group onChange={this.onChangeK} value={this.state.debt_or_credit}>
+                  <Radio value={'debit'}>Debit</Radio>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <Radio value={'credit'}>Credit</Radio>
                 </Radio.Group>
               </div>
 
@@ -557,20 +662,17 @@ class Filter extends PureComponent {
                     </div>
 
 
-
                     {/*<div className={styles.leftTitle}>*/}
-                      {/*<Radio.Group onChange={this.onChangeH} value={this.state.RadioValueBH}>*/}
-                        {/*<Radio style={radioStyle} value={1}>*/}
-                          {/*Common rate*/}
-                        {/*</Radio>*/}
-                        {/*<Radio style={radioStyle} value={2}>*/}
-                          {/*Local*/}
-                        {/*</Radio>*/}
-                      {/*</Radio.Group>*/}
+                    {/*<Radio.Group onChange={this.onChangeH} value={this.state.RadioValueBH}>*/}
+                    {/*<Radio style={radioStyle} value={1}>*/}
+                    {/*Common rate*/}
+                    {/*</Radio>*/}
+                    {/*<Radio style={radioStyle} value={2}>*/}
+                    {/*Local*/}
+                    {/*</Radio>*/}
+                    {/*</Radio.Group>*/}
 
                     {/*</div>*/}
-
-
 
 
                     <div className={styles.rightTopAllView}>
@@ -582,7 +684,7 @@ class Filter extends PureComponent {
                             size={'small'}
                             defaultActiveFirstOption={false}
                             // onChange={handleChange}
-                            value= {this.state.currency}
+                            value={this.state.currency}
                             onChange={v => {
                               this.onchangeChooseCurrency(v);
                             }}
@@ -596,29 +698,27 @@ class Filter extends PureComponent {
                           </Select>
 
 
-
-
                         </div>
 
                         <div className={styles.selectP}>
-                            <Select
-                              className={styles.selectStyle}
-                              size={'small'}
-                              placeholder='company_code'
-                              defaultActiveFirstOption={false}
-                              value= {this.state.company_code}
+                          <Select
+                            className={styles.selectStyle}
+                            size={'small'}
+                            placeholder='company_code'
+                            defaultActiveFirstOption={false}
+                            value={this.state.company_code}
 
-                              // onChange={handleChange}
-                              onChange={v => {
-                                this.onchangeChooseCompanyCode(v);
-                              }}
-                            >
-                              {this.state.selectCompanyList &&
-                              this.state.selectCompanyList.map((item, index) => (
-                                <Select.Option key={item} value={item}>
-                                  {item}
-                                </Select.Option>
-                              ))}
+                            // onChange={handleChange}
+                            onChange={v => {
+                              this.onchangeChooseCompanyCode(v);
+                            }}
+                          >
+                            {this.state.selectCompanyList &&
+                            this.state.selectCompanyList.map((item, index) => (
+                              <Select.Option key={item} value={item}>
+                                {item}
+                              </Select.Option>
+                            ))}
                           </Select>
                         </div>
                       </div>
@@ -638,19 +738,19 @@ class Filter extends PureComponent {
                     </div>
 
 
-
                   </div>
 
 
                 </div>
 
-
+                {!this.state.isShowResult && <div>
                 <div className={styles.midRight}>
 
                   <div className={styles.leftView}>
 
                     <div className={styles.topInput}>
-                       <Search placeholder="input search text" onSearch={value => this.SearchLeftView(value)} enterButton />
+                      <Search placeholder="input search text" onSearch={value => this.SearchLeftView(value)}
+                              enterButton/>
                     </div>
 
                     <div className={styles.selectBtn}>
@@ -669,10 +769,12 @@ class Filter extends PureComponent {
                         message={
                           <Fragment>
                             已查询 <a style={{ fontWeight: 600 }}>{this.state.data.length}</a> 项&nbsp;&nbsp;
-                            {this.state.isShowLeftAllChoose&& <a onClick={this.chooseAllLeftClick.bind(this)} style={{ marginLeft: 24 }}>
+                            {this.state.isShowLeftAllChoose &&
+                            <a onClick={this.chooseAllLeftClick.bind(this)} style={{ marginLeft: 24 }}>
                               全选
                             </a>}
-                            {this.state.isShowLeftAllClear&& <a onClick={this.cleanAllLeftClick.bind(this)} style={{ marginLeft: 24 }}>
+                            {this.state.isShowLeftAllClear &&
+                            <a onClick={this.cleanAllLeftClick.bind(this)} style={{ marginLeft: 24 }}>
                               清空
                             </a>}
 
@@ -692,7 +794,8 @@ class Filter extends PureComponent {
                                 {/*<Checkbox checked={item.selectedItem} onChange={()=>this.onChangeC(item)}>{item.name}</Checkbox>*/}
 
 
-                                <Checkbox checked={item.selectedItem} onChange={()=>this.onChangeC(item)}>{item.name}</Checkbox>
+                                <Checkbox checked={item.selectedItem}
+                                          onChange={() => this.onChangeC(item)}>{item.name}</Checkbox>
 
 
                               </div>
@@ -702,7 +805,7 @@ class Filter extends PureComponent {
                         )}>
                         {this.state.loading && this.state.hasMore && (
                           <div className={styles.demoloadingcontainer}>
-                            <Spin />
+                            <Spin/>
                           </div>
                         )}
                       </List>
@@ -712,11 +815,10 @@ class Filter extends PureComponent {
                   </div>
 
 
-
-
                   <div className={styles.rightView}>
                     <div className={styles.topInputR}>
-                      <Search placeholder="input search text" onSearch={value => this.SearchRightView(value)} enterButton />
+                      <Search placeholder="input search text" onSearch={value => this.SearchRightView(value)}
+                              enterButton/>
                     </div>
 
                     <div className={styles.selectBtn}>
@@ -735,10 +837,12 @@ class Filter extends PureComponent {
                         message={
                           <Fragment>
                             已查询 <a style={{ fontWeight: 600 }}>{this.state.dataR.length}</a> 项&nbsp;&nbsp;
-                            {this.state.isShowRightAllChoose&& <a onClick={this.chooseAllRightClick.bind(this)} style={{ marginLeft: 24 }}>
+                            {this.state.isShowRightAllChoose &&
+                            <a onClick={this.chooseAllRightClick.bind(this)} style={{ marginLeft: 24 }}>
                               全选
                             </a>}
-                            {this.state.isShowRightAllClear&& <a onClick={this.cleanAllRightClick.bind(this)} style={{ marginLeft: 24 }}>
+                            {this.state.isShowRightAllClear &&
+                            <a onClick={this.cleanAllRightClick.bind(this)} style={{ marginLeft: 24 }}>
                               清空
                             </a>}
 
@@ -754,15 +858,16 @@ class Filter extends PureComponent {
                           <List.Item key={item.id}>
                             <div className={styles.listItem}>
                               <div className={styles.listItemCheck}>
-                            <Checkbox checked={item.selectedItem} onChange={()=>this.onChangeCC(item)}>{item.name}</Checkbox>
+                                <Checkbox checked={item.selectedItem}
+                                          onChange={() => this.onChangeCC(item)}>{item.name}</Checkbox>
                               </div>
-                            <div className={styles.listItemCode}>{item.code}</div>
+                              <div className={styles.listItemCode}>{item.code}</div>
                             </div>
                           </List.Item>
                         )}>
                         {this.state.loading && this.state.hasMore && (
                           <div className={styles.demoloadingcontainer}>
-                            <Spin />
+                            <Spin/>
                           </div>
                         )}
                       </List>
@@ -772,20 +877,54 @@ class Filter extends PureComponent {
 
                   </div>
 
-
-
                 </div>
 
+                </div>}
 
-                <div className={styles.bottomRight}>
+                {this.state.isShowResult&&<div className={styles.resultContent}>
+                    {
+                      this.state.tempData.map((item, index)=>(
+
+                         <Table
+                            columns={this.columns}
+                            dataSource={item.data}
+                            tableLayout={'auto'}
+                            size="middle"
+                            // showHeader={index=== 0?true:false}
+                            pagination={false}
+                            bordered
+                            title={() => item.journal_id
+                            }
+                            // footer={() => ''}
+
+                        />
+
+
+                      ))
+
+                    }
+                </div>
+
+              }
+
+
+                {this.state.journals.length !== 0 && <div className={styles.bottomRight}>
+                  <div><Pagination defaultCurrent={1} onChange={this.onShowSizeChange.bind(this)} pageSize={this.state.pageN} total={this.state.journals.length}/></div>
 
                 </div>
+                }
 
               </div>
 
 
             </Card>
-          </Col>
+
+
+
+
+
+
+              </Col>
         </Row>
       </GridContent>
     );

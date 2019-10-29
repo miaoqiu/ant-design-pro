@@ -49,7 +49,7 @@ const cachedSave = (response, hashcode) => {
       .clone()
       .text()
       .then(content => {
-        sessionStorage.setItem(hashcode, content);
+        // sessionStorage.setItem(hashcode, content);
         sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
       });
   }
@@ -93,7 +93,6 @@ export default function request(url, option) {
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers,
         access_token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
-
       };
       newOptions.body = JSON.stringify(newOptions.body);
     } else {
@@ -124,7 +123,7 @@ export default function request(url, option) {
   }
   return fetch(url, newOptions)
     .then(checkStatus)
-    .then(response => cachedSave(response, hashcode))
+    // .then(response => cachedSave(response, hashcode))
     .then(response => {
       // DELETE and 204 do not return data by default
       // using .json will report an error.

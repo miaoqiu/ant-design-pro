@@ -14,7 +14,6 @@ export function getAuthority(str) {
     return [authority];
   }
   return authority;
-
 }
 
 export function setAuthority(authority) {

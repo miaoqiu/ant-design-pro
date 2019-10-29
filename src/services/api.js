@@ -1,8 +1,6 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
-
-
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
@@ -127,7 +125,6 @@ export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
 
-
 /** 登录
  * @param params
  * @returns {Promise<void>}
@@ -138,8 +135,6 @@ export async function loginAction(params) {
     body: params,
   });
 }
-
-
 
 /** 获取Templates
  * @param params
@@ -152,7 +147,6 @@ export async function GetTempListApi(params) {
   });
 }
 
-
 /** 获取SearchList
  * @param params
  * @returns {Promise<void>}
@@ -162,11 +156,7 @@ export async function GetSearchListApi(params) {
     method: 'POST',
     body: params,
   });
- }
-
-
-
-
+}
 
 /** 获取查询页面基本信息
  * @param params
@@ -179,7 +169,6 @@ export async function getBaseDataApi(params) {
   });
 }
 
-
 /**
  * @param params UnexpectedAccountCombination UnexpectedAccount 点运行后显示table
  * @returns {Promise<void>}
@@ -190,8 +179,3 @@ export async function resultDataListApi(params) {
     body: params,
   });
 }
-
-
-
-
-

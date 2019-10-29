@@ -81,7 +81,7 @@ class SelectionTable extends PureComponent {
     const { columns } = this.props;
     // const { list = [], pagination } = data;
 
-    console.log("data:"+data);
+    console.log('data:' + data);
 
     const paginationProps = {
       showSizeChanger: false,
